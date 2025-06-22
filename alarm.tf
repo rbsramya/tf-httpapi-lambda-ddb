@@ -1,3 +1,5 @@
+# Add metric filter
+
 resource "aws_cloudwatch_log_metric_filter" "info_count" {
   name           = "info-count"
   log_group_name = aws_cloudwatch_log_group.http_api.name
@@ -10,7 +12,7 @@ resource "aws_cloudwatch_log_metric_filter" "info_count" {
     unit      = "None"
   }
 }
-
+#Create Alarm
 resource "aws_cloudwatch_metric_alarm" "info_count_alarm" {
   alarm_name          = "${local.name_prefix}-info-count-breach"
   alarm_description   = "Alarm when INFO count exceeds 10 per minute"
@@ -28,6 +30,7 @@ resource "aws_cloudwatch_metric_alarm" "info_count_alarm" {
   ok_actions = [aws_sns_topic.alarm_notifications.arn]
 }
 
+#create SNS topic
 resource "aws_sns_topic" "alarm_notifications" {
   name = "${local.name_prefix}-alarm-topic"
 }
